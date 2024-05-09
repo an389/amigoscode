@@ -1,6 +1,8 @@
 package com.amigoscode.customer;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +23,8 @@ class CustomerJPADataAccessServiceTest {
 
     private CustomerJPADataAccessService underTest;
     private AutoCloseable autoCloseable;
-    @Mock private CustomerRepository customerRepository;
+    @Mock
+    private CustomerRepository customerRepository;
 
     @BeforeEach
     void setUp() {
@@ -35,19 +39,19 @@ class CustomerJPADataAccessServiceTest {
 
     @Test
     void selectAllCustomers() {
-        Page<Customer> page = mock(Page.class);
-        List<Customer> customers = List.of(new Customer());
-        when(page.getContent()).thenReturn(customers);
-        when(customerRepository.findAll(any(Pageable.class))).thenReturn(page);
-        // When
-        List<Customer> expected = underTest.selectAllCustomers();
+        List<Customer> customers = new ArrayList<>();
+        customers.add(new Customer("Jhon","Jhon@gmail.com","password",21,Gender.MALE));
+        customers.add(new Customer("Jhon2","Jhon@gmai2l.com","password",11,Gender.MALE));
 
-        // Then
-        assertThat(expected).isEqualTo(customers);
-        ArgumentCaptor<Pageable> pageArgumentCaptor = ArgumentCaptor.forClass(Pageable.class);
-        verify(customerRepository).findAll(pageArgumentCaptor.capture());
-        assertThat(pageArgumentCaptor.getValue()).isEqualTo(Pageable.ofSize(1000));
+        Page<Customer> customerPage = new PageImpl<>(customers);
+
+        when(customerRepository.findAll(Pageable.ofSize(1000))).thenReturn(customerPage);
+
+        List<Customer> result = underTest.selectAllCustomers();
+        assertThat(result).hasSize(customers.size());
+        assertThat(result).isEqualTo(customers);
     }
+
 
     @Test
     void selectCustomerById() {

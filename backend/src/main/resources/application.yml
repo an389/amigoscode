@@ -10,11 +10,11 @@ cors:
   exposed-headers: "*"
 
 aws:
-  region: eu-west-1
+  region: eu-central-1
   s3:
     mock: true
     buckets:
-      customer: fs-amigoscode-customer-test
+      customer: fs-andrei-customer-test
 
 management:
   endpoints:
@@ -32,7 +32,7 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hiberna te.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
   main:
