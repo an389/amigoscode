@@ -33,7 +33,7 @@ services:
       args:
         api_base_url: http://localhost:8080
     ports:
-      - "3000:5173"
+      - "3000:3000"
     depends_on:
       - amigoscode-api
     restart: unless-stopped
