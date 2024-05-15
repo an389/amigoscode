@@ -35,7 +35,7 @@ public class Main {
         return args -> {
             //createRandomCustomer(customerRepository, passwordEncoder);
             //testBucketUploadAndDownload(s3Service, s3Buckets);
-
+            //
         };
     }
 
@@ -65,7 +65,7 @@ public class Main {
         Gender gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
         String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@amigoscode.com";
         Customer customer = new Customer(
-                firstName +  " " + lastName,
+                firstName + " " + lastName,
                 email,
                 passwordEncoder.encode("password"),
                 age,
