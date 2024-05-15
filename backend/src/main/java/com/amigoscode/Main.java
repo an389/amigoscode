@@ -35,6 +35,7 @@ public class Main {
         return args -> {
             //createRandomCustomer(customerRepository, passwordEncoder);
             //testBucketUploadAndDownload(s3Service, s3Buckets);
+            //
         };
     }
 
