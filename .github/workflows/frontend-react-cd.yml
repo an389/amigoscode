@@ -40,7 +40,7 @@ jobs:
         run: |
           echo "Dockerrun.aws.json before updating tag"
           cat ../../Dockerrun.aws.json
-          sed -i -E "s|(andumihai2000/)[^:]+:[^"]*|\1${{ env.REPO_NAME }}:${{ env.BUILD_NUMBER }}|" ../Dockerrun.aws.json
+          sed -i -E "s|(andumihai2000/)[^\"]+:|andumihai2000/$REPO_NAME:$BUILD_NUMBER|" ../Dockerrun.aws.json
           echo "Dockerrun.aws.json after updating tag"
           cat ../../Dockerrun.aws.json
       - name: Deploy to Elastic Beanstalk
