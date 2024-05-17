@@ -21,6 +21,8 @@ jobs:
       - name: Set build number
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
+      - name: Set environment variable
+        run: echo "REPO_NAME=drei-reactapp" >> $GITHUB_ENV
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -33,12 +35,12 @@ jobs:
           REPO=drei-reactapp \
           TAG=${{ steps.build-number.outputs.BUILD_NUMBER }} \
           ../../.ci/build-publish.sh . \
-            --build-arg api_base_url=http://drei.eu-central-1.elasticbeanstalk.com:8080
+            --build-arg api_base_url=http://drei.eu-central-1.elasticbeanstalk.com
       - name: Update Dockerrun.aws.json react image tag with new build number
         run: |
           echo "Dockerrun.aws.json before updating tag"
           cat ../../Dockerrun.aws.json
-          sed -i -E 's_(andumihai2000/drei-reactapp:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' ../../Dockerrun.aws.json
+          sed -i -E "s|(andumihai2000/)[^:]+:[^"]*|\1${{ env.REPO_NAME }}:${{ env.BUILD_NUMBER }}|" ../Dockerrun.aws.json
           echo "Dockerrun.aws.json after updating tag"
           cat ../../Dockerrun.aws.json
       - name: Deploy to Elastic Beanstalk
