@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "andumihai2000/drei-api:17.05.2024.09.18.21",
+    "Name": "andumihai2000/drei-api:17.05.2024.11.53.32",
     "Update": "true"
   },
   "Ports": [
