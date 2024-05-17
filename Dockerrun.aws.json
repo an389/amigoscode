@@ -1,23 +1,12 @@
 {
-  "AWSEBDockerrunVersion": 1,
-  "containerDefinitions": [
+  "AWSEBDockerrunVersion": "3",
+  "Image": {
+    "Name": "andumihai2000/drei-api:1",
+    "Update": "true"
+  },
+  "Ports": [
     {
-      "name": "drei-api",
-      "image": "andumihai2000/drei-api",
-      "essential": true,
-      "memory": 512,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 8080
-        }
-      ],
-      "environment": [
-        {
-          "name": "SPRING_PROFILES_ACTIVE",
-          "value": "test"
-        }
-      ]
+      "ContainerPort": "8080"
     }
   ]
 }
