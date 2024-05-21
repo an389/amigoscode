@@ -18,6 +18,9 @@ import {useAuth} from "../context/AuthContext.jsx";
 import {errorNotification} from "../../services/notification.js";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import logo from "../../resources/logo-auction-disertatie.png";
+import bgLogo from "../../resources/bg-image-singuplogin.jpg";
+
 
 const MyTextInput = ({label, ...props}) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -116,14 +119,15 @@ const Login = () => {
             <Flex p={8} flex={1} alignItems={'center'} justifyContent={'center'}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
                     <Image
-                        src={"https://user-images.githubusercontent.com/40702606/210880158-e7d698c2-b19a-4057-b415-09f48a746753.png"}
+                        src={logo}
                         boxSize={"200px"}
                         alt={"Amigoscode Logo"}
                         alignSelf={"center"}
+                        rounded={100}
                     />
                     <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
                     <LoginForm/>
-                    <Link color={"blue.500"} href={"/signup"}>
+                    <Link color={"blue.700"} href={"/signup"}>
                         Dont have an account? Signup now.
                     </Link>
                 </Stack>
@@ -134,18 +138,16 @@ const Login = () => {
                 flexDirection={"column"}
                 alignItems={"center"}
                 justifyContent={"center"}
-                bgGradient={{sm: 'linear(to-r, blue.600, purple.600)'}}
+                bgGradient={{sm: 'linear(to-r, blue.400, purple.800)'}}
             >
                 <Text fontSize={"6xl"} color={'white'} fontWeight={"bold"} mb={5}>
-                        Enrol Now
-
+                    Join us
                 </Text>
                 <Image
                     alt={'Login Image'}
                     objectFit={'scale-down'}
-                    src={
-                        'https://user-images.githubusercontent.com/40702606/215539167-d7006790-b880-4929-83fb-c43fa74f429e.png'
-                    }
+                    src={bgLogo}
+                    rounded={50}
                 />
             </Flex>
         </Stack>

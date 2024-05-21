@@ -5,7 +5,7 @@ const Home = () => {
 
     return (
         <SidebarWithHeader>
-            <Text fontSize={"6xl"}>Bid on them</Text>
+            <Text fontSize={"6xl"}>Bid on these</Text>
         </SidebarWithHeader>
     )
 }
