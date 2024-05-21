@@ -118,12 +118,12 @@ const CreateCustomerForm = ({ onSuccess }) => {
                                 placeholder="20"
                             />
 
-                            {/*<MyTextInput*/}
-                            {/*    label="Password"*/}
-                            {/*    name="password"*/}
-                            {/*    type="password"*/}
-                            {/*    placeholder={"pick a secure password"}*/}
-                            {/*/>*/}
+                            <MyTextInput
+                                label="Password"
+                                name="password"
+                                type="password"
+                                placeholder={"pick a secure password"}
+                            />
 
                             <MySelect label="Gender" name="gender">
                                 <option value="">Select gender</option>
