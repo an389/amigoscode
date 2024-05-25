@@ -3,10 +3,13 @@ package com.amigoscode.customer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.amigoscode.model.Customer;
+import com.amigoscode.model.enums.Gender;
+import com.amigoscode.persistance.CustomerJPADataAccessService;
+import com.amigoscode.persistance.interfaces.CustomerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
@@ -40,7 +43,7 @@ class CustomerJPADataAccessServiceTest {
     @Test
     void selectAllCustomers() {
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer("Jhon","Jhon@gmail.com","password",21,Gender.MALE));
+        customers.add(new Customer("Jhon","Jhon@gmail.com","password",21, Gender.MALE));
         customers.add(new Customer("Jhon2","Jhon@gmai2l.com","password",11,Gender.MALE));
 
         Page<Customer> customerPage = new PageImpl<>(customers);

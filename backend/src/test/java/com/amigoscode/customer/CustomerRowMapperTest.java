@@ -1,5 +1,8 @@
 package com.amigoscode.customer;
 
+import com.amigoscode.model.Customer;
+import com.amigoscode.model.enums.Gender;
+import com.amigoscode.persistance.mapper.CustomerRowMapper;
 import org.junit.jupiter.api.Test;
 
 import java.sql.ResultSet;

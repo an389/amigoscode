@@ -1,10 +1,10 @@
 package com.amigoscode;
 
-import com.amigoscode.customer.Customer;
-import com.amigoscode.customer.CustomerRepository;
-import com.amigoscode.customer.Gender;
-import com.amigoscode.s3.S3Buckets;
-import com.amigoscode.s3.S3Service;
+import com.amigoscode.model.Customer;
+import com.amigoscode.persistance.interfaces.CustomerRepository;
+import com.amigoscode.model.enums.Gender;
+import com.amigoscode.persistance.s3.S3Buckets;
+import com.amigoscode.persistance.s3.S3Service;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 import org.springframework.boot.CommandLineRunner;
@@ -12,14 +12,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import software.amazon.awssdk.core.ResponseBytes;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 
 import java.util.Random;
-import java.util.UUID;
 
 @SpringBootApplication
 public class Main {

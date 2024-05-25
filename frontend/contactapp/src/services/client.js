@@ -1,5 +1,5 @@
 import axios from 'axios';
-const VITE_API_BASE_URL = "http://drei.eu-central-1.elasticbeanstalk.com";
+const VITE_API_BASE_URL = "http://localhost:8080";
 const getAuthConfig = () => ({
     headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`

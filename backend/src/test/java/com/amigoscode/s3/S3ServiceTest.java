@@ -1,5 +1,6 @@
 package com.amigoscode.s3;
 
+import com.amigoscode.persistance.s3.S3Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

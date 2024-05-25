@@ -1,7 +1,9 @@
 package com.amigoscode.journey;
 
-import com.amigoscode.customer.*;
-import com.github.dockerjava.zerodep.shaded.org.apache.hc.client5.http.entity.mime.MultipartPartBuilder;
+import com.amigoscode.model.api.CustomerRegistrationRequest;
+import com.amigoscode.model.api.CustomerUpdateRequest;
+import com.amigoscode.model.enums.Gender;
+import com.amigoscode.model.CustomerDTO;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 import org.junit.jupiter.api.Test;
