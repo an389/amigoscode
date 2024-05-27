@@ -39,8 +39,9 @@ public class BidService {
     }
 
     public List<BidDTO> getAllBids() {
-        log.info("getAllBids {}", bidDAO.selectAllBids().stream().map(bidDTOMapper).collect(Collectors.toList()));
-        return bidDAO.selectAllBids().stream().map(bidDTOMapper).collect(Collectors.toList());
+        List<BidDTO> bids = bidDAO.selectAllBids().stream().map(bidDTOMapper).collect(Collectors.toList());
+        log.info("getAllBids {}", bids);
+        return bids;
     }
 
     public void addBid(BidRegistrationRequest request) {
