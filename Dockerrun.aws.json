@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "andumihai2000/drei-reactapp:17.05.2024.14.42.33",
+    "Name": "andumihai2000/drei-api:27.05.2024.11.23.18",
     "Update": "true"
   },
   "Ports": [
