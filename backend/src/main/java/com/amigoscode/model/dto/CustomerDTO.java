@@ -1,4 +1,4 @@
-package com.amigoscode.model;
+package com.amigoscode.model.dto;
 
 import com.amigoscode.model.enums.Gender;
 

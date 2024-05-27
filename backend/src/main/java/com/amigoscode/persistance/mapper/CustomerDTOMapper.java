@@ -1,7 +1,7 @@
 package com.amigoscode.persistance.mapper;
 
 import com.amigoscode.model.Customer;
-import com.amigoscode.model.CustomerDTO;
+import com.amigoscode.model.dto.CustomerDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 

@@ -7,7 +7,7 @@ import com.amigoscode.model.Customer;
 import com.amigoscode.model.api.CustomerRegistrationRequest;
 import com.amigoscode.model.api.CustomerUpdateRequest;
 import com.amigoscode.model.enums.Gender;
-import com.amigoscode.model.CustomerDTO;
+import com.amigoscode.model.dto.CustomerDTO;
 import com.amigoscode.persistance.mapper.CustomerDTOMapper;
 import com.amigoscode.persistance.interfaces.CustomerDao;
 import com.amigoscode.persistance.s3.S3Buckets;

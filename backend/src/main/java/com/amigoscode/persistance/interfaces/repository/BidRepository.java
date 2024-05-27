@@ -1,4 +1,4 @@
-package com.amigoscode.persistance.interfaces;
+package com.amigoscode.persistance.interfaces.repository;
 
 import com.amigoscode.model.Bid;
 import jakarta.transaction.Transactional;

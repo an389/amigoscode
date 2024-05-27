@@ -3,7 +3,7 @@ package com.amigoscode.service;
 import com.amigoscode.model.api.AuthenticationRequest;
 import com.amigoscode.model.api.AuthenticationResponse;
 import com.amigoscode.model.Customer;
-import com.amigoscode.model.CustomerDTO;
+import com.amigoscode.model.dto.CustomerDTO;
 import com.amigoscode.persistance.mapper.CustomerDTOMapper;
 import com.amigoscode.jwt.JWTUtil;
 import org.springframework.security.authentication.AuthenticationManager;

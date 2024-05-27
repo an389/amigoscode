@@ -1,22 +1,27 @@
 package com.amigoscode;
 
 import com.amigoscode.model.Customer;
-import com.amigoscode.persistance.interfaces.CustomerRepository;
+import com.amigoscode.persistance.interfaces.repository.CustomerRepository;
 import com.amigoscode.model.enums.Gender;
 import com.amigoscode.persistance.s3.S3Buckets;
 import com.amigoscode.persistance.s3.S3Service;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.Random;
 
 @SpringBootApplication
 public class Main {
+
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);

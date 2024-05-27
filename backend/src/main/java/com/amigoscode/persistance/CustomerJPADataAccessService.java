@@ -2,7 +2,7 @@ package com.amigoscode.persistance;
 
 import com.amigoscode.model.Customer;
 import com.amigoscode.persistance.interfaces.CustomerDao;
-import com.amigoscode.persistance.interfaces.CustomerRepository;
+import com.amigoscode.persistance.interfaces.repository.CustomerRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("jpa")
+@Repository("jpaCustomer")
 public class CustomerJPADataAccessService implements CustomerDao {
 
     private final CustomerRepository customerRepository;

@@ -6,7 +6,7 @@ import java.util.List;
 import com.amigoscode.model.Customer;
 import com.amigoscode.model.enums.Gender;
 import com.amigoscode.persistance.CustomerJPADataAccessService;
-import com.amigoscode.persistance.interfaces.CustomerRepository;
+import com.amigoscode.persistance.interfaces.repository.CustomerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

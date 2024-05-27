@@ -12,7 +12,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
 
     private final CustomerDao customerDao;
 
-    public CustomerUserDetailsService(@Qualifier("jpa") CustomerDao customerDao) {
+    public CustomerUserDetailsService(@Qualifier("jpaCustomer") CustomerDao customerDao) {
         this.customerDao = customerDao;
     }
 

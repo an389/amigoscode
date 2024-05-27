@@ -4,7 +4,7 @@ import com.amigoscode.model.api.CustomerRegistrationRequest;
 import com.amigoscode.service.CustomerService;
 import com.amigoscode.model.api.CustomerUpdateRequest;
 import com.amigoscode.jwt.JWTUtil;
-import com.amigoscode.model.CustomerDTO;
+import com.amigoscode.model.dto.CustomerDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

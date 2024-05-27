@@ -2,7 +2,7 @@ package com.amigoscode.journey;
 
 import com.amigoscode.model.api.AuthenticationRequest;
 import com.amigoscode.model.api.AuthenticationResponse;
-import com.amigoscode.model.CustomerDTO;
+import com.amigoscode.model.dto.CustomerDTO;
 import com.amigoscode.model.api.CustomerRegistrationRequest;
 import com.amigoscode.model.enums.Gender;
 import com.amigoscode.jwt.JWTUtil;

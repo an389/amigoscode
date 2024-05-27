@@ -2,6 +2,9 @@ package com.amigoscode.model.api;
 
 public record BidRegistrationRequest(
         String email,
-        Integer amount
+        double amount,
+        int productId,
+        String currency,
+        int userId
 ) {
 }
