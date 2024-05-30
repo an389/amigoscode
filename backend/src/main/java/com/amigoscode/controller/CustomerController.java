@@ -31,10 +31,10 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
 
-    @GetMapping("{customerId}")
+    @GetMapping("/{userName}")
     public CustomerDTO getCustomer(
-            @PathVariable("customerId") Integer customerId) {
-        return customerService.getCustomer(customerId);
+            @PathVariable("userName") String userName) {
+        return customerService.getCustomer(userName);
     }
 
     @PostMapping

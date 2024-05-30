@@ -32,11 +32,12 @@ import {
 } from 'react-icons/fi';
 import {useAuth} from "../context/AuthContext.jsx";
 import logo from "../../resources/logo-auction-disertatie.png";
+import {useNavigate} from "react-router-dom";
 
 
 const LinkItems = [
     {name: 'Home', route: '/dashboard', icon: FiHome},
-    {name: 'Customers', route: '/dashboard/customers',  icon: FiUsers},
+    {name: 'Customers', route: '/dashboard/customers', icon: FiUsers},
     {name: 'Settings', route: '/dashboard/settings', icon: FiSettings},
 ];
 
@@ -80,8 +81,9 @@ const SidebarContent = ({onClose, ...rest}) => {
             pos="fixed"
             h="full"
             {...rest}>
-            <Flex h="20" flexDirection="column" alignItems="center" mx="8" mb={85} mt={2} justifyContent="space-between">
-                <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" >
+            <Flex h="20" flexDirection="column" alignItems="center" mx="8" mb={85} mt={2}
+                  justifyContent="space-between">
+                <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
                     Dashboard
                 </Text>
                 <Image
@@ -133,7 +135,20 @@ const NavItem = ({icon, route, children, ...rest}) => {
 };
 
 const MobileNav = ({onOpen, ...rest}) => {
-    const { logOut, customer } = useAuth()
+    const {logOut, customer} = useAuth()
+    const navigate = useNavigate();
+    const username = customer?.username;
+
+    function goToProfile() {
+        const profileUrl = `/dashboard/customers/${username}`;
+        navigate(profileUrl);
+    }
+
+    function goToSettings() {
+        const profileUrl = `/dashboard/settings`;
+        navigate(profileUrl);
+    }
+
     return (
         <Flex
             ml={{base: 0, md: 60}}
@@ -187,11 +202,6 @@ const MobileNav = ({onOpen, ...rest}) => {
                                     spacing="1px"
                                     ml="2">
                                     <Text fontSize="sm">{customer?.username}</Text>
-                                    {customer?.roles.map((role, id) => (
-                                        <Text key={id} fontSize="xs" color="gray.600">
-                                            {role}
-                                        </Text>
-                                    ))}
                                 </VStack>
                                 <Box display={{base: 'none', md: 'flex'}}>
                                     <FiChevronDown/>
@@ -201,9 +211,8 @@ const MobileNav = ({onOpen, ...rest}) => {
                         <MenuList
                             bg={useColorModeValue('white', 'gray.900')}
                             borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                            <MenuItem>Profile</MenuItem>
-                            <MenuItem>Settings</MenuItem>
-                            <MenuItem>Billing</MenuItem>
+                            <MenuItem onClick={goToProfile}>Profile</MenuItem>
+                            <MenuItem onClick={goToSettings}>Settings</MenuItem>
                             <MenuDivider/>
                             <MenuItem onClick={logOut}>
                                 Sign out

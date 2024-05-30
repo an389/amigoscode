@@ -29,12 +29,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerProduct(
+    public String registerProduct(
             @RequestBody ProductRegistrationRequest request) {
         productService.addProduct(request);
-        String jwtToken = jwtUtil.issueToken(request.email(), "ROLE_USER");
-        return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, jwtToken)
-                .build();
+        return "OK";
+    }
+
+    @GetMapping("/{id}")
+    public Product getProduct(@PathVariable("id") Integer idProduct){
+        return productService.getProduct(idProduct);
     }
 }

@@ -1,5 +1,18 @@
 import axios from 'axios';
-const VITE_API_BASE_URL = "http://localhost:8080";
+
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
+fetch(`${API_BASE_URL}/endpoint`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+
+
 const getAuthConfig = () => ({
     headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`
@@ -9,7 +22,63 @@ const getAuthConfig = () => ({
 export const getCustomers = async () => {
     try {
         return await axios.get(
-            VITE_API_BASE_URL+`/api/v1/customers`,
+            API_BASE_URL+`/api/v1/customers`,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const getCustomer = async (userName) => {
+    try {
+        return await axios.get(
+            API_BASE_URL+`/api/v1/customers/${userName}`,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const getBids = async () => {
+    try {
+        return await axios.get(
+            API_BASE_URL+`/api/v1/bids`,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const getProducts = async () => {
+    try {
+        return await axios.get(
+            API_BASE_URL+`/api/v1/product`,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const getProduct = async (id) => {
+    try {
+        return await axios.get(
+            API_BASE_URL+`/api/v1/product/${id}`,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const registerProduct = async (product) => {
+    try {
+        return await axios.post(
+            API_BASE_URL+`/api/v1/product`,
+            product,
             getAuthConfig()
         )
     } catch (e) {
@@ -20,7 +89,7 @@ export const getCustomers = async () => {
 export const saveCustomer = async (customer) => {
     try {
         return await axios.post(
-            VITE_API_BASE_URL+`/api/v1/customers`,
+            API_BASE_URL+`/api/v1/customers`,
             customer
         )
     } catch (e) {
@@ -31,7 +100,7 @@ export const saveCustomer = async (customer) => {
 export const updateCustomer = async (id, update) => {
     try {
         return await axios.put(
-            VITE_API_BASE_URL+`/api/v1/customers/${id}`,
+            API_BASE_URL+`/api/v1/customers/${id}`,
             update,
             getAuthConfig()
         )
@@ -43,7 +112,7 @@ export const updateCustomer = async (id, update) => {
 export const deleteCustomer = async (id) => {
     try {
         return await axios.delete(
-            VITE_API_BASE_URL+`/api/v1/customers/${id}`,
+            API_BASE_URL+`/api/v1/customers/${id}`,
             getAuthConfig()
         )
     } catch (e) {
@@ -54,7 +123,7 @@ export const deleteCustomer = async (id) => {
 export const login = async (usernameAndPassword) => {
     try {
         return await axios.post(
-            VITE_API_BASE_URL+`/api/v1/auth/login`,
+            API_BASE_URL+`/api/v1/auth/login`,
             usernameAndPassword
         )
     } catch (e) {
@@ -67,7 +136,7 @@ export const login = async (usernameAndPassword) => {
 export const uploadCustomerProfilePicture = async (id, formData) => {
     try {
         return axios.post(
-            VITE_API_BASE_URL+`/api/v1/customers/${id}/profile-image`,
+            API_BASE_URL+`/api/v1/customers/${id}/profile-image`,
             formData,
             {
                 ...getAuthConfig(),
@@ -80,4 +149,4 @@ export const uploadCustomerProfilePicture = async (id, formData) => {
 }
 
 export const customerProfilePictureUrl = (id) =>
-    VITE_API_BASE_URL+`/api/v1/customers/${id}/profile-image`;
+    API_BASE_URL+`/api/v1/customers/${id}/profile-image`;

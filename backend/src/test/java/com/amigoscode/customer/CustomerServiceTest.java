@@ -61,14 +61,14 @@ class CustomerServiceTest {
     @Test
     void canGetCustomer() {
         // Given
-        int id = 10;
-        Customer customer = new Customer(id, "Alex", "alex@gmail.com", "password", 19, Gender.MALE);
-        when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
+        String username = "alex@gmail.com";
+        Customer customer = new Customer(10, "Alex", username, "password", 19, Gender.MALE);
+        when(customerDao.selectUserByEmail(username)).thenReturn(Optional.of(customer));
 
         CustomerDTO expected = customerDTOMapper.apply(customer);
 
         // When
-        CustomerDTO actual = underTest.getCustomer(id);
+        CustomerDTO actual = underTest.getCustomer(username);
 
         // Then
         assertThat(actual).isEqualTo(expected);
@@ -77,13 +77,13 @@ class CustomerServiceTest {
     @Test
     void willThrowWhenGetCustomerReturnEmptyOptional() {
         // Given
-        int id = 10;
+        String userName = "alex@gmail.com";
 
-        when(customerDao.selectCustomerById(id)).thenReturn(Optional.empty());
+        when(customerDao.selectUserByEmail(userName)).thenReturn(Optional.empty());
 
         // When
         // Then
-        assertThatThrownBy(() -> underTest.getCustomer(id)).isInstanceOf(ResourceNotFoundException.class).hasMessage("customer with id [%s] not found".formatted(id));
+        assertThatThrownBy(() -> underTest.getCustomer(userName)).isInstanceOf(ResourceNotFoundException.class).hasMessage("customer with email [%s] not found".formatted(userName));
     }
 
     @Test

@@ -25,7 +25,7 @@ const MyTextInput = ({label, ...props}) => {
     );
 };
 
-const MyDropzone = ({ customerId, fetchCustomers }) => {
+const MyDropzone = ({customerId, fetchCustomers}) => {
     const onDrop = useCallback(acceptedFiles => {
         const formData = new FormData();
         formData.append("file", acceptedFiles[0])
@@ -62,7 +62,7 @@ const MyDropzone = ({ customerId, fetchCustomers }) => {
 }
 
 // And now we can use these
-const UpdateCustomerForm = ({fetchCustomers, initialValues, customerId}) => {
+const UpdateProductForm = ({fetchCustomers, initialValues, customerId}) => {
     return (
         <>
             <VStack spacing={'5'} mb={'5'}>
@@ -145,4 +145,4 @@ const UpdateCustomerForm = ({fetchCustomers, initialValues, customerId}) => {
     );
 };
 
-export default UpdateCustomerForm;
+export default UpdateProductForm;

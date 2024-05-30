@@ -10,7 +10,7 @@ public record ProductRegistrationRequest(
         String description,
         double startingPrice,
         String currency,
-        int sellerId,
+        String sellerEmail,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime startDate,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm")

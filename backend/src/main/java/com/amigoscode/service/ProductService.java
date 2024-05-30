@@ -4,7 +4,6 @@ import com.amigoscode.exception.ResourceNotFoundException;
 import com.amigoscode.model.Customer;
 import com.amigoscode.model.Product;
 import com.amigoscode.model.api.ProductRegistrationRequest;
-import com.amigoscode.model.dto.BidDTO;
 import com.amigoscode.model.dto.ProductDTO;
 import com.amigoscode.model.enums.ECurrency;
 import com.amigoscode.persistance.interfaces.CustomerDao;
@@ -35,10 +34,10 @@ public class ProductService {
 
 
     public void addProduct(ProductRegistrationRequest request) {
-        Optional<Customer> customer = customerDAO.selectCustomerById(request.sellerId());
+        Optional<Customer> customer = customerDAO.selectUserByEmail(request.sellerEmail());
 
         if (customer.isEmpty()) {
-            throw new ResourceNotFoundException("customer with id [%s] not found".formatted(request.sellerId()));
+            throw new ResourceNotFoundException("please try again later");
         }
 
         Product product = new Product(
@@ -59,4 +58,9 @@ public class ProductService {
                 .collect(Collectors.toList());
         log.info("getAllProducts {}", product);
         return product;    }
+
+    public Product getProduct(Integer idProduct) {
+        return productDAO.selectProductById(idProduct)
+                .orElseThrow(() -> new ResourceNotFoundException("No product found!"));
+    }
 }

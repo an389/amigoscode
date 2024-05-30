@@ -9,30 +9,36 @@ import {
     DrawerOverlay,
     useDisclosure
 } from "@chakra-ui/react";
-import CreateCustomerForm from "../shared/CreateCustomerForm.jsx";
+import UpdateProductForm from "./UpdateProductForm.jsx";
+import {BiPlus} from "react-icons/bi";
 
-const AddIcon = () => "+";
 const CloseIcon = () => "x";
 
-const CreateCustomerDrawer = ({ fetchCustomers }) => {
+const BidProductDrawer = ({ fetchCustomers, initialValues, customerId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return <>
         <Button
-            leftIcon={<AddIcon/>}
             colorScheme={"teal"}
+            rounded={'full'}
+            _hover={{
+                transform: 'translateY(-2px)',
+                boxShadow: 'lg'
+            }}
             onClick={onOpen}
         >
-            Create customer
+            BID
         </Button>
         <Drawer isOpen={isOpen} onClose={onClose} size={"xl"}>
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Create new customer</DrawerHeader>
+                <DrawerHeader>Update customer</DrawerHeader>
 
                 <DrawerBody>
-                    <CreateCustomerForm
-                        onSuccess={fetchCustomers}
+                    <UpdateProductForm
+                        fetchCustomers={fetchCustomers}
+                        initialValues={initialValues}
+                        customerId={customerId}
                     />
                 </DrawerBody>
 
@@ -50,4 +56,4 @@ const CreateCustomerDrawer = ({ fetchCustomers }) => {
 
 }
 
-export default CreateCustomerDrawer;
+export default BidProductDrawer;

@@ -50,11 +50,11 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public CustomerDTO getCustomer(Integer id) {
-        return customerDao.selectCustomerById(id)
+    public CustomerDTO getCustomer(String userName) {
+        return customerDao.selectUserByEmail(userName)
                 .map(customerDTOMapper)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "customer with id [%s] not found".formatted(id)
+                        "customer with email [%s] not found".formatted(userName)
                 ));
     }
 
