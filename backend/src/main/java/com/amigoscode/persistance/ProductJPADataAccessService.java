@@ -36,8 +36,8 @@ public class ProductJPADataAccessService implements ProductDAO {
 
     @Override
     public List<Product> selectAllProducts() {
-        Page<Product> page = productRepository.findAll(Pageable.ofSize(1000));
-        log.info("Product page " + page.getContent());
-        return page.getContent();
+        List<Product> allProducts = productRepository.selectAllProducts();
+        log.info("Product page {}", allProducts);
+        return allProducts;
     }
 }

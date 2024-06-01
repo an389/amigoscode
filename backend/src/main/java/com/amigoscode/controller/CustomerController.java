@@ -1,10 +1,12 @@
 package com.amigoscode.controller;
 
 import com.amigoscode.model.api.CustomerRegistrationRequest;
+import com.amigoscode.model.dto.ProductDTO;
 import com.amigoscode.service.CustomerService;
 import com.amigoscode.model.api.CustomerUpdateRequest;
 import com.amigoscode.jwt.JWTUtil;
 import com.amigoscode.model.dto.CustomerDTO;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -77,6 +79,12 @@ public class CustomerController {
     public byte[] getCustomerProfileImage(
             @PathVariable("customerId") Integer customerId) {
         return customerService.getCustomerProfileImage(customerId);
+    }
+
+
+    @GetMapping("/search")
+    public List<CustomerDTO> getSearchCustomer(@RequestParam("keyword") String keyword) {
+        return customerService.findBySearch(keyword);
     }
 
 }

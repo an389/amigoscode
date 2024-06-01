@@ -8,10 +8,13 @@ import com.amigoscode.model.dto.ProductDTO;
 import com.amigoscode.model.enums.ECurrency;
 import com.amigoscode.persistance.interfaces.CustomerDao;
 import com.amigoscode.persistance.interfaces.ProductDAO;
+import com.amigoscode.persistance.interfaces.repository.ProductRepository;
 import com.amigoscode.persistance.mapper.ProductDTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,11 +28,13 @@ public class ProductService {
     private final CustomerDao customerDAO;
     private final ProductDAO productDAO;
     private final ProductDTOMapper productDTOMapper;
+    private final ProductRepository productRepository;
 
-    public ProductService(@Qualifier("jpaCustomer") CustomerDao customerDAO, @Qualifier("jpaProduct") ProductDAO productDAO, ProductDTOMapper productDTOMapper) {
+    public ProductService(@Qualifier("jpaCustomer") CustomerDao customerDAO, @Qualifier("jpaProduct") ProductDAO productDAO, ProductDTOMapper productDTOMapper, ProductRepository productRepository) {
         this.customerDAO = customerDAO;
         this.productDAO = productDAO;
         this.productDTOMapper = productDTOMapper;
+        this.productRepository = productRepository;
     }
 
 
@@ -57,10 +62,17 @@ public class ProductService {
                 .stream().map(productDTOMapper)
                 .collect(Collectors.toList());
         log.info("getAllProducts {}", product);
-        return product;    }
+        return product;
+    }
 
     public Product getProduct(Integer idProduct) {
         return productDAO.selectProductById(idProduct)
                 .orElseThrow(() -> new ResourceNotFoundException("No product found!"));
+    }
+
+    public List<ProductDTO> findBySearch(String keyword) {
+        return productRepository.findBySearch(keyword)
+                .stream().map(productDTOMapper)
+                .collect(Collectors.toList());
     }
 }

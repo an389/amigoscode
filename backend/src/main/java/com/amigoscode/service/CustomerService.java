@@ -7,12 +7,15 @@ import com.amigoscode.exception.ResourceNotFoundException;
 import com.amigoscode.model.Customer;
 import com.amigoscode.model.api.CustomerRegistrationRequest;
 import com.amigoscode.model.dto.CustomerDTO;
+import com.amigoscode.model.dto.ProductDTO;
+import com.amigoscode.persistance.interfaces.repository.CustomerRepository;
 import com.amigoscode.persistance.mapper.CustomerDTOMapper;
 import com.amigoscode.persistance.interfaces.CustomerDao;
 import com.amigoscode.persistance.s3.S3Buckets;
 import com.amigoscode.persistance.s3.S3Service;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,17 +33,19 @@ public class CustomerService {
     private final PasswordEncoder passwordEncoder;
     private final S3Service s3Service;
     private final S3Buckets s3Buckets;
+    private final CustomerRepository customerRepository;
 
     public CustomerService(@Qualifier("jpaCustomer") CustomerDao customerDao,
                            CustomerDTOMapper customerDTOMapper,
                            PasswordEncoder passwordEncoder,
                            S3Service s3Service,
-                           S3Buckets s3Buckets) {
+                           S3Buckets s3Buckets, CustomerRepository customerRepository) {
         this.customerDao = customerDao;
         this.customerDTOMapper = customerDTOMapper;
         this.passwordEncoder = passwordEncoder;
         this.s3Service = s3Service;
         this.s3Buckets = s3Buckets;
+        this.customerRepository = customerRepository;
     }
 
     public List<CustomerDTO> getAllCustomers() {
@@ -161,6 +166,13 @@ public class CustomerService {
                 "profile-images/%s/%s".formatted(customerId, customer.profileImageId())
         );
         return profileImage;
+    }
+
+    public List<CustomerDTO> findBySearch(String keyword) {
+        return customerRepository.findBySearch(keyword)
+                .stream()
+                .map(customerDTOMapper)
+                .collect(Collectors.toList());
     }
 }
 

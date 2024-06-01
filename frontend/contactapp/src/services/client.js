@@ -41,6 +41,17 @@ export const getCustomer = async (userName) => {
     }
 }
 
+export const getCustomerSearch = async (searchParams) => {
+    try {
+        return await axios.get(
+            API_BASE_URL+`/api/v1/customers/search?keyword=${searchParams}`,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
 export const getBids = async () => {
     try {
         return await axios.get(
@@ -56,6 +67,17 @@ export const getProducts = async () => {
     try {
         return await axios.get(
             API_BASE_URL+`/api/v1/product`,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const getProductsSearch = async (searchParams) => {
+    try {
+        return await axios.get(
+            API_BASE_URL+`/api/v1/product/search?keyword=${searchParams}`,
             getAuthConfig()
         )
     } catch (e) {

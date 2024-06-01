@@ -38,7 +38,7 @@ import {useNavigate} from "react-router-dom";
 const LinkItems = [
     {name: 'Home', route: '/dashboard', icon: FiHome},
     {name: 'Customers', route: '/dashboard/customers', icon: FiUsers},
-    {name: 'Settings', route: '/dashboard/settings', icon: FiSettings},
+    // {name: 'Settings', route: '/dashboard/settings', icon: FiSettings},
 ];
 
 export default function SidebarWithHeader({children}) {
@@ -212,7 +212,7 @@ const MobileNav = ({onOpen, ...rest}) => {
                             bg={useColorModeValue('white', 'gray.900')}
                             borderColor={useColorModeValue('gray.200', 'gray.700')}>
                             <MenuItem onClick={goToProfile}>Profile</MenuItem>
-                            <MenuItem onClick={goToSettings}>Settings</MenuItem>
+                            {/*<MenuItem onClick={goToSettings}>Settings</MenuItem>*/}
                             <MenuDivider/>
                             <MenuItem onClick={logOut}>
                                 Sign out

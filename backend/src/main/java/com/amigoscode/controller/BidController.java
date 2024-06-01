@@ -32,12 +32,8 @@ public class BidController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerBid(
+    public void registerBid(
             @RequestBody BidRegistrationRequest request) {
         bidService.addBid(request);
-        String jwtToken = jwtUtil.issueToken(request.email(), "ROLE_USER");
-        return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, jwtToken)
-                .build();
     }
 }

@@ -9,14 +9,14 @@ import {
     DrawerOverlay,
     useDisclosure
 } from "@chakra-ui/react";
-import CreateCustomerForm from "../shared/CreateCustomerForm.jsx";
 import {BiSearch} from "react-icons/bi";
+import SearchCustomerForm from "./SearchCustomerForm";
 
 const AddIcon = () => "+";
 const CloseIcon = () => "x";
 
-const CreateCustomerDrawer = ({ fetchCustomers }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+const CreateCustomerDrawer = ({fetchCustomers}) => {
+    const {isOpen, onOpen, onClose} = useDisclosure()
     return <>
         <Button
             leftIcon={<BiSearch/>}
@@ -26,15 +26,13 @@ const CreateCustomerDrawer = ({ fetchCustomers }) => {
             Serach customer
         </Button>
         <Drawer isOpen={isOpen} onClose={onClose} size={"xl"}>
-            <DrawerOverlay />
+            <DrawerOverlay/>
             <DrawerContent>
-                <DrawerCloseButton />
+                <DrawerCloseButton/>
                 <DrawerHeader>Search customer</DrawerHeader>
 
                 <DrawerBody>
-                    <CreateCustomerForm
-                        onSuccess={fetchCustomers}
-                    />
+                    <SearchCustomerForm/>
                 </DrawerBody>
 
                 <DrawerFooter>
@@ -42,12 +40,12 @@ const CreateCustomerDrawer = ({ fetchCustomers }) => {
                         leftIcon={<CloseIcon/>}
                         colorScheme={"teal"}
                         onClick={onClose}>
-                    Close
+                        Close
                     </Button>
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
-        </>
+    </>
 
 }
 

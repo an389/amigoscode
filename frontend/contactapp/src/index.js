@@ -12,6 +12,7 @@ import './index.css'
 import Home from "./Home.jsx";
 import Settings from "./Settings";
 import CustomerProfile from "./components/customer/CustomerProfile";
+import SearchProductForm from "./components/product/SearchProductForm";
 
 const {ToastContainer} = createStandaloneToast();
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
     {
         path: "dashboard/customers/:userName",
         element: <ProtectedRoute><CustomerProfile/></ProtectedRoute>
+    },
+    {
+        path: "dashboard/search",
+        element: <ProtectedRoute><SearchProductForm/></ProtectedRoute>
     }
 ])
 console.log('API URL:', process.env.REACT_APP_API_URL);

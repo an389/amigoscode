@@ -20,7 +20,7 @@ import {customerProfilePictureUrl, deleteCustomer} from "../../services/client.j
 import {errorNotification, successNotification} from "../../services/notification.js";
 import BidProductDrawer from "./BidProductDrawer.jsx";
 import DetailProductDrawer from "./DetailProductDrawer";
-import TimeRemaining from "./TimeRemaining";
+import TimeRemaining, {bidStarted} from "./TimeRemaining";
 
 export default function CardWithImage({id, name, description, startingPrice, currency, sellerId,  imageNumber, sellerName, creationDate, startDate, endDate,fetchProducts}) {
 

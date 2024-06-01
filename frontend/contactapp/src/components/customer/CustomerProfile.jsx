@@ -5,13 +5,14 @@ import {customerProfilePictureUrl, getCustomer} from "../../services/client";
 import SidebarWithHeader from "../shared/SideBar";
 import '../../index.css';
 
-const CustomerProfile = () => {
-    const {userName} = useParams();
+const CustomerProfile = ({usernameCustomerDetailPage}) => {
+    const {userName, setUserName} = useParams();
     const [customer, setCustomer] = useState(null);
     const [loading, setLoading] = useState(true);
+    console.log("USERNAME: " + usernameCustomerDetailPage)
     console.log("user" + userName);
     useEffect(() => {
-        getCustomer(userName)
+        getCustomer(usernameCustomerDetailPage ? usernameCustomerDetailPage : userName)
             .then(response => {
                 setCustomer(response.data);
                 setLoading(false);
@@ -28,7 +29,29 @@ const CustomerProfile = () => {
     }
 
     if (!customer) {
-        return <div>Product not found</div>;
+        return <div>Customer not found</div>;
+    }
+
+    if (usernameCustomerDetailPage){
+        return (
+                <Box padding="6" boxShadow="lg" bg="white">
+                    <VStack spacing={4}>
+                        <Avatar
+                            size={'xl'}
+                            src={customerProfilePictureUrl(customer.id)}
+                            alt={'Author'}
+                            css={{
+                                border: '2px solid white',
+                            }}
+                        />
+                        <Heading as="h2" size="xl">{customer.name}</Heading>
+                        <Text fontSize="lg"><span style={{fontWeight: 'bold'}}>Email:</span> {customer.email}</Text>
+                        <Text fontSize="md"><span style={{fontWeight: 'bold'}}>Gender:</span> {customer.gender}</Text>
+                        <Text fontSize="md"><span style={{fontWeight: 'bold'}}>Age:</span> {customer.age}</Text>
+                        <Text fontSize="md"><span style={{fontWeight: 'bold'}}>User Name:</span> {customer.username}</Text>
+                    </VStack>
+                </Box>
+        );
     }
 
     return (

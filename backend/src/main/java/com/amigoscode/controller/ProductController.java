@@ -5,8 +5,8 @@ import com.amigoscode.model.Product;
 import com.amigoscode.model.api.ProductRegistrationRequest;
 import com.amigoscode.model.dto.ProductDTO;
 import com.amigoscode.service.ProductService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductDTO> getProducts(){
+    public List<ProductDTO> getProducts() {
         return productService.getAllProducts();
     }
 
@@ -36,7 +36,12 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProduct(@PathVariable("id") Integer idProduct){
+    public Product getProduct(@PathVariable("id") Integer idProduct) {
         return productService.getProduct(idProduct);
+    }
+
+    @GetMapping("/search")
+    public List<ProductDTO> getSearchProduct( @RequestParam("keyword") String keyword) {
+        return productService.findBySearch(keyword);
     }
 }

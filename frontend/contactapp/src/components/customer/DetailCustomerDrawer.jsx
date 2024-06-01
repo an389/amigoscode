@@ -10,10 +10,11 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 import UpdateCustomerForm from "./UpdateCustomerForm.jsx";
+import CustomerProfile from "./CustomerProfile";
 
 const CloseIcon = () => "x";
 
-const UpdateCustomerDrawer = ({ fetchCustomers, initialValues, customerId }) => {
+const DetailCustomerDrawer = ({ fetchCustomers, initialValues, customerId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return <>
         <Button
@@ -26,20 +27,16 @@ const UpdateCustomerDrawer = ({ fetchCustomers, initialValues, customerId }) => 
             }}
             onClick={onOpen}
         >
-            Update
+            Detail
         </Button>
         <Drawer isOpen={isOpen} onClose={onClose} size={"xl"}>
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Update customer</DrawerHeader>
+                <DrawerHeader>Detail</DrawerHeader>
 
                 <DrawerBody>
-                    <UpdateCustomerForm
-                        fetchCustomers={fetchCustomers}
-                        initialValues={initialValues}
-                        customerId={customerId}
-                    />
+                    <CustomerProfile usernameCustomerDetailPage={initialValues.email}/>
                 </DrawerBody>
 
                 <DrawerFooter>
@@ -56,4 +53,4 @@ const UpdateCustomerDrawer = ({ fetchCustomers, initialValues, customerId }) => 
 
 }
 
-export default UpdateCustomerDrawer;
+export default DetailCustomerDrawer;
