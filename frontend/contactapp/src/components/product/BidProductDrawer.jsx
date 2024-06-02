@@ -11,10 +11,11 @@ import {
 } from "@chakra-ui/react";
 import UpdateProductForm from "./UpdateProductForm.jsx";
 import {BiPlus} from "react-icons/bi";
+import AddBid from "./AddBid";
 
 const CloseIcon = () => "x";
 
-const BidProductDrawer = ({ fetchCustomers, initialValues, customerId }) => {
+const BidProductDrawer = ({ fetchProducts, initialValues, productId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     return <>
         <Button
@@ -32,13 +33,13 @@ const BidProductDrawer = ({ fetchCustomers, initialValues, customerId }) => {
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Update customer</DrawerHeader>
+                <DrawerHeader>Bid as much as you can!</DrawerHeader>
 
                 <DrawerBody>
-                    <UpdateProductForm
-                        fetchCustomers={fetchCustomers}
+                    <AddBid
+                        fetchCustomers={fetchProducts}
                         initialValues={initialValues}
-                        customerId={customerId}
+                        productId={productId}
                     />
                 </DrawerBody>
 

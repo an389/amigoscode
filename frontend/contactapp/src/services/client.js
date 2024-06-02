@@ -172,3 +172,16 @@ export const uploadCustomerProfilePicture = async (id, formData) => {
 
 export const customerProfilePictureUrl = (id) =>
     API_BASE_URL+`/api/v1/customers/${id}/profile-image`;
+
+
+export const registerBid = async (bid) => {
+    try {
+        return await axios.post(
+            API_BASE_URL+`/api/v1/bids`,
+            bid,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}

@@ -22,9 +22,22 @@ import BidProductDrawer from "./BidProductDrawer.jsx";
 import DetailProductDrawer from "./DetailProductDrawer";
 import TimeRemaining, {bidStarted} from "./TimeRemaining";
 
-export default function CardWithImage({id, name, description, startingPrice, currency, sellerId,  imageNumber, sellerName, creationDate, startDate, endDate,fetchProducts}) {
+export default function CardWithImage({
+                                          id,
+                                          name,
+                                          description,
+                                          startingPrice,
+                                          currency,
+                                          sellerId,
+                                          imageNumber,
+                                          sellerName,
+                                          creationDate,
+                                          startDate,
+                                          endDate,
+                                          fetchProducts
+                                      }) {
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const {isOpen, onOpen, onClose} = useDisclosure()
     const cancelRef = useRef()
 
     return (
@@ -76,14 +89,14 @@ export default function CardWithImage({id, name, description, startingPrice, cur
                 <Stack direction={'row'} justify={'center'} mb={4}>
                     <Stack mr={2}>
                         <DetailProductDrawer
-                            initialValues={{ name, sellerName,  startingPrice}}
+                            initialValues={{name, sellerName, startingPrice}}
                             productId={id}
                             fetchProducts={fetchProducts}
                         />
                     </Stack>
                     <Stack ml={2}>
                         <BidProductDrawer
-                            initialValues={{ name, sellerName,  startingPrice}}
+                            initialValues={{name, sellerName, startingPrice, sellerId, currency}}
                             fetchProducts={fetchProducts}
                             productId={id}
                         />
