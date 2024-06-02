@@ -101,7 +101,7 @@ public class CustomerIT {
 
         // get customer by id
         webTestClient.get()
-                .uri(CUSTOMER_PATH + "/{id}", id)
+                .uri(CUSTOMER_PATH + "/{userName}", email)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(AUTHORIZATION, String.format("Bearer %s", jwtToken))
                 .exchange()
@@ -265,7 +265,7 @@ public class CustomerIT {
 
         // get customer by id
         CustomerDTO updatedCustomer = webTestClient.get()
-                .uri(CUSTOMER_PATH + "/{id}", id)
+                .uri(CUSTOMER_PATH + "/{userName}", email)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(AUTHORIZATION, String.format("Bearer %s", jwtToken))
                 .exchange()
@@ -361,7 +361,7 @@ public class CustomerIT {
 
         // get customer by id
         String profileImageId = webTestClient.get()
-                .uri(CUSTOMER_PATH + "/{id}", customerDTO.id())
+                .uri(CUSTOMER_PATH + "/{userName}", customerDTO.username())
                 .accept(MediaType.APPLICATION_JSON)
                 .header(AUTHORIZATION, String.format("Bearer %s", jwtToken))
                 .exchange()

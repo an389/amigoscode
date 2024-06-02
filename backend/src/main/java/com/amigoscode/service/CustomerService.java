@@ -39,7 +39,8 @@ public class CustomerService {
                            CustomerDTOMapper customerDTOMapper,
                            PasswordEncoder passwordEncoder,
                            S3Service s3Service,
-                           S3Buckets s3Buckets, CustomerRepository customerRepository) {
+                           S3Buckets s3Buckets,
+                           CustomerRepository customerRepository) {
         this.customerDao = customerDao;
         this.customerDTOMapper = customerDTOMapper;
         this.passwordEncoder = passwordEncoder;

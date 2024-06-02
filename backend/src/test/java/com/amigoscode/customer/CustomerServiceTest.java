@@ -8,6 +8,7 @@ import com.amigoscode.model.api.CustomerRegistrationRequest;
 import com.amigoscode.model.api.CustomerUpdateRequest;
 import com.amigoscode.model.enums.Gender;
 import com.amigoscode.model.dto.CustomerDTO;
+import com.amigoscode.persistance.interfaces.repository.CustomerRepository;
 import com.amigoscode.persistance.mapper.CustomerDTOMapper;
 import com.amigoscode.persistance.interfaces.CustomerDao;
 import com.amigoscode.persistance.s3.S3Buckets;
@@ -43,10 +44,11 @@ class CustomerServiceTest {
     private S3Buckets s3Buckets;
     private CustomerService underTest;
     private final CustomerDTOMapper customerDTOMapper = new CustomerDTOMapper();
+    private CustomerRepository customerRepository;
 
     @BeforeEach
     void setUp() {
-        underTest = new CustomerService(customerDao, customerDTOMapper, passwordEncoder, s3Service, s3Buckets);
+        underTest = new CustomerService(customerDao, customerDTOMapper, passwordEncoder, s3Service, s3Buckets, customerRepository);
     }
 
     @Test
