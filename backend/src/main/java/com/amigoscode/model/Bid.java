@@ -72,4 +72,16 @@ public class Bid {
     public ECurrency getCurrency() {
         return currency;
     }
+
+    @Override
+    public String toString() {
+        return "Bid{" +
+                "id=" + id +
+                ", dateAndTime=" + dateAndTime +
+                ", product=" + product +
+                ", buyer=" + buyer +
+                ", amount=" + amount +
+                ", currency=" + currency +
+                '}';
+    }
 }
