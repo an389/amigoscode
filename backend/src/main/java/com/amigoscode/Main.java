@@ -7,6 +7,7 @@ import com.amigoscode.persistance.s3.S3Buckets;
 import com.amigoscode.persistance.s3.S3Service;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
+import io.unlogged.Unlogged;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +23,7 @@ import java.util.Random;
 public class Main {
 
     private static final Logger log = LoggerFactory.getLogger(Main.class);
+
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
