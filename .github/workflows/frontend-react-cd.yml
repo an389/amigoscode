@@ -6,7 +6,7 @@ on:
     branches:
       - master
     paths:
-      - frontend/react-auction/**
+      - frontend/contactapp/**
 
 jobs:
   deploy:
