@@ -38,8 +38,8 @@ public class BidService {
         this.productDAO = productDAO;
     }
 
-    public List<BidDTO> getAllBids() {
-        List<BidDTO> bids = bidDAO.selectAllBids().stream().map(bidDTOMapper).collect(Collectors.toList());
+    public List<BidDTO> getAllBids(Long productId) {
+        List<BidDTO> bids = bidDAO.selectAllBids(productId).stream().map(bidDTOMapper).collect(Collectors.toList());
         log.info("getAllBids {}", bids);
         return bids;
     }
@@ -56,11 +56,28 @@ public class BidService {
             throw new ResourceNotFoundException("product with id [%s] not found".formatted(request.productId()));
         }
 
+        List<BidDTO> bids = bidDAO.selectAllBids((long) request.productId()).stream().map(bidDTOMapper).collect(Collectors.toList());
+
+        if (bids.size() > 0) {
+            BidDTO highestBid = bids.get(0);
+            if (highestBid.amount() >= request.amount()) {
+                throw new IllegalArgumentException("Bid amount must be higher than the current highest bid");
+            }
+        }
+
         Bid bid = new Bid(product.orElse(null),
                 customer.orElse(null),
                 request.amount(),
                 ECurrency.valueOf(request.currency()));
 
+
         bidDAO.insertBid(bid);
+        log.info("addBid {}", bid);
+    }
+
+    public List<BidDTO> getBidsByProductId(Long productId) {
+        List<BidDTO> bids = bidDAO.selectAllBids(productId).stream().map(bidDTOMapper).collect(Collectors.toList());
+        log.info("getAllBids {}", bids);
+        return bids;
     }
 }

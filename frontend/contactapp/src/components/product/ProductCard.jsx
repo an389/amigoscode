@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 import {useRef} from 'react'
-import {customerProfilePictureUrl, deleteCustomer} from "../../services/client.js";
+import {customerProfilePictureUrl, deleteCustomer, productPictureUrl} from "../../services/client.js";
 import {errorNotification, successNotification} from "../../services/notification.js";
 import BidProductDrawer from "./BidProductDrawer.jsx";
 import DetailProductDrawer from "./DetailProductDrawer";
@@ -39,7 +39,6 @@ export default function CardWithImage({
 
     const {isOpen, onOpen, onClose} = useDisclosure()
     const cancelRef = useRef()
-
     return (
         <Center py={6}>
             <Box
@@ -89,7 +88,7 @@ export default function CardWithImage({
                 <Stack direction={'row'} justify={'center'} mb={4}>
                     <Stack mr={2}>
                         <DetailProductDrawer
-                            initialValues={{name, sellerName, startingPrice}}
+                            initialValues={{name, sellerName, startingPrice, sellerId}}
                             productId={id}
                             fetchProducts={fetchProducts}
                         />

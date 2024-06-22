@@ -48,7 +48,13 @@ const router = createBrowserRouter([
     {
         path: "dashboard/search",
         element: <ProtectedRoute><SearchProductForm/></ProtectedRoute>
+    },
+    {
+        path: "dashboard/:id/image",
+        element: <ProtectedRoute><SearchProductForm/></ProtectedRoute>
     }
+
+
 ])
 console.log('API URL:', process.env.REACT_APP_API_URL);
 ReactDOM

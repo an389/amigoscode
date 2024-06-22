@@ -43,7 +43,7 @@ public class RatingService {
     }
 
     public void addRating(RatingRegistrationRequest request){
-        Optional<Customer> ratingCustomer = customerDao.selectCustomerById(request.idRatingCustomer());
+        Optional<Customer> ratingCustomer = customerDao.selectUserByEmail(request.email());
         Optional<Customer> ratedCustomer = customerDao.selectCustomerById(request.idRatedCustomer());
         Optional<Product> product = productDAO.selectProductById(request.productId());
 

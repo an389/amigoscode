@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {Box, Heading, Image, Text, VStack} from '@chakra-ui/react';
-import {customerProfilePictureUrl, getProduct} from "../../services/client";
+import {customerProfilePictureUrl, getProduct, getRating, productPictureUrl} from "../../services/client";
 
 const ProductDetail = () => {
     const {id} = useParams();
     const [product, setProduct] = useState(null);
+    const [rating, setRating] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -18,6 +19,19 @@ const ProductDetail = () => {
                 console.log(err);
             }).finally(()=>{
                 setLoading(false);
+        });
+    }, [id]);
+
+    useEffect(() => {
+        getRating(id)
+            .then(response => {
+                setRating(response.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+            }).finally(()=>{
+            setLoading(false);
         });
     }, [id]);
 
@@ -41,7 +55,7 @@ const ProductDetail = () => {
                 <Heading as="h2" size="xl">{product.name}</Heading>
                 <Text fontSize="lg"><span style={{fontWeight: 'bold'}}>Description:</span> {product.description}</Text>
                 <Text fontSize="md"><span
-                    style={{fontWeight: 'bold'}}>Price:</span> {product.startingPrice} {product.currency}</Text>
+                    style={{fontWeight: 'bold'}}>Starting price:</span> {product.startingPrice} {product.currency}</Text>
                 <Text fontSize="md"><span style={{fontWeight: 'bold'}}>Seller:</span> {product.seller.name}</Text>
                 <Text fontSize="md"><span style={{fontWeight: 'bold'}}>Email:</span> {product.seller.email}</Text>
                 <Text fontSize="md"><span
@@ -53,6 +67,16 @@ const ProductDetail = () => {
                 <Text fontSize="md"><span
                     style={{fontWeight: 'bold'}}>Auction ends:</span> {new Date(product.endDate).toLocaleString()}
                 </Text>
+                <Text fontSize="md"><span style={{fontWeight: 'bold'}}>We found: </span> {rating ? rating.length : 0} ratings</Text>
+                {rating && rating.map((r, index) => (
+                    <Box key={index} padding="6" boxShadow="lg" bg="gray.100" marginTop="4">
+                        <Text><span style={{fontWeight: 'bold'}}>Rating nr:</span> {++index}</Text>
+                        <Text><span style={{fontWeight: 'bold'}}>Date:</span> {new Date(r.dateAndTime).toLocaleString()}</Text>
+                        <Text><span style={{fontWeight: 'bold'}}>Rating Customer Name: </span> {r.ratingCustomerName}</Text>
+                        <Text><span style={{fontWeight: 'bold'}}>Grade: </span> {r.grade}</Text>
+                        <Text><span style={{fontWeight: 'bold'}}>Comment:</span> {r.comment}</Text>
+                    </Box>
+                ))}
             </VStack>
         </Box>
     );

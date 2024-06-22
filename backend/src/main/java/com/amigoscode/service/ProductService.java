@@ -10,15 +10,21 @@ import com.amigoscode.persistance.interfaces.CustomerDao;
 import com.amigoscode.persistance.interfaces.ProductDAO;
 import com.amigoscode.persistance.interfaces.repository.ProductRepository;
 import com.amigoscode.persistance.mapper.ProductDTOMapper;
+import com.amigoscode.persistance.s3.S3Buckets;
+import com.amigoscode.persistance.s3.S3Service;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,16 +35,20 @@ public class ProductService {
     private final ProductDAO productDAO;
     private final ProductDTOMapper productDTOMapper;
     private final ProductRepository productRepository;
+    private final S3Service s3Service;
+    private final S3Buckets s3Buckets;
 
-    public ProductService(@Qualifier("jpaCustomer") CustomerDao customerDAO, @Qualifier("jpaProduct") ProductDAO productDAO, ProductDTOMapper productDTOMapper, ProductRepository productRepository) {
+    public ProductService(@Qualifier("jpaCustomer") CustomerDao customerDAO, @Qualifier("jpaProduct") ProductDAO productDAO, ProductDTOMapper productDTOMapper, ProductRepository productRepository, S3Service s3Service, S3Buckets s3Buckets) {
         this.customerDAO = customerDAO;
         this.productDAO = productDAO;
         this.productDTOMapper = productDTOMapper;
         this.productRepository = productRepository;
+        this.s3Service = s3Service;
+        this.s3Buckets = s3Buckets;
     }
 
 
-    public void addProduct(ProductRegistrationRequest request) {
+    public Integer addProduct(ProductRegistrationRequest request) {
         Optional<Customer> customer = customerDAO.selectUserByEmail(request.sellerEmail());
 
         if (customer.isEmpty()) {
@@ -54,7 +64,8 @@ public class ProductService {
                 request.startDate(),
                 request.endDate());
 
-        productDAO.insertProduct(product);
+        int productId = productDAO.insertProduct(product);
+        return productId;
     }
 
     public List<ProductDTO> getAllProducts() {
@@ -74,5 +85,29 @@ public class ProductService {
         return productRepository.findBySearch(keyword)
                 .stream().map(productDTOMapper)
                 .collect(Collectors.toList());
+    }
+
+    public void uploadProductImage(Integer productId, MultipartFile file) {
+        productDAO.selectProductById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("No product found!"));
+        try {
+            s3Service.putObject(
+                    s3Buckets.getCustomer(),
+                    "product-images/%s/%s".formatted(productId, productId),
+                    file.getBytes()
+            );
+        } catch (IOException e) {
+            throw new RuntimeException("failed to upload image", e);
+        }
+    }
+
+    public byte[] getProductImage(Integer productId) {
+        productDAO.selectProductById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("No product found!"));
+
+        byte[] profileImage = s3Service.getObject(
+                s3Buckets.getCustomer(),
+                "product-images/%s/%s".formatted(productId, productId));
+        return profileImage;
     }
 }

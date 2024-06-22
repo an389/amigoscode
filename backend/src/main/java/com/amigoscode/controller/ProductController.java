@@ -7,7 +7,9 @@ import com.amigoscode.model.dto.ProductDTO;
 import com.amigoscode.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,10 +31,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public String registerProduct(
+    public Integer registerProduct(
             @RequestBody ProductRegistrationRequest request) {
-        productService.addProduct(request);
-        return "OK";
+        //we return product id for the user to know the product id for upload picture
+        return productService.addProduct(request);
     }
 
     @GetMapping("/{id}")
@@ -43,5 +45,24 @@ public class ProductController {
     @GetMapping("/search")
     public List<ProductDTO> getSearchProduct( @RequestParam("keyword") String keyword) {
         return productService.findBySearch(keyword);
+    }
+
+    @PostMapping(
+            value = "{productId}/image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public void uploadCustomerProfileImage(
+            @PathVariable("productId") Integer productId,
+            @RequestParam("file") MultipartFile file) {
+        productService.uploadProductImage(productId, file);
+    }
+
+    @GetMapping(
+            value = "{productId}/image",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
+    public byte[] getCustomerProfileImage(
+            @PathVariable("productId") Integer productId) {
+        return productService.getProductImage(productId);
     }
 }

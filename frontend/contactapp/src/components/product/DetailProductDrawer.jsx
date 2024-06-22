@@ -7,16 +7,30 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerOverlay,
-    useDisclosure
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton
 } from "@chakra-ui/react";
+import { useState } from "react";
 import UpdateProductForm from "./UpdateProductForm.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
 import ProductDetail from "./ProductDetail";
+import AddRatingForm from "./AddRatingForm";
 
 const CloseIcon = () => "x";
 
 const DetailProductDrawer = ({ fetchCustomers, initialValues, productId }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const {
+        isOpen: isModalOpen,
+        onOpen: onModalOpen,
+        onClose: onModalClose
+    } = useDisclosure();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -33,7 +47,10 @@ const DetailProductDrawer = ({ fetchCustomers, initialValues, productId }) => {
         onClose();
     };
 
-    console.log("PRODUCT ID " + productId);
+    const handleAddRatingClick = () => {
+        onModalOpen();
+    };
+
     return (
         <>
             <Button
@@ -52,7 +69,19 @@ const DetailProductDrawer = ({ fetchCustomers, initialValues, productId }) => {
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader>Details product</DrawerHeader>
+                    <DrawerHeader>
+                        <>
+                            Details product
+                            <Button
+                                marginLeft={29}
+                                leftIcon={<CloseIcon />}
+                                colorScheme={"teal"}
+                                onClick={handleAddRatingClick}
+                            >
+                                AddRating
+                            </Button>
+                        </>
+                    </DrawerHeader>
 
                     <DrawerBody>
                         <ProductDetail/>
@@ -69,6 +98,22 @@ const DetailProductDrawer = ({ fetchCustomers, initialValues, productId }) => {
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
+            <Modal isOpen={isModalOpen} onClose={onModalClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Add Rating</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <AddRatingForm productId={productId} closeModal={onModalClose} idRatedCustomer = {initialValues.sellerId}/>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme="teal" mr={3} onClick={onModalClose}>
+                            Close
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </>
     );
 };

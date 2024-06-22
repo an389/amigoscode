@@ -1,20 +1,15 @@
-import {Form, Formik, useField} from 'formik';
+import { Form, Formik, useField } from 'formik';
 import * as Yup from 'yup';
-import {Alert, AlertIcon, Box, Button, FormLabel, Image, Input, Stack, VStack} from "@chakra-ui/react";
 import {
-    customerProfilePictureUrl,
-    registerBid,
-    updateCustomer,
-    uploadCustomerProfilePicture
+    Alert, AlertIcon, Box, Button, FormLabel, Input, Stack, Text
+} from "@chakra-ui/react";
+import {
+    getBids, registerBid
 } from "../../services/client.js";
-import {errorNotification, successNotification} from "../../services/notification.js";
-import {useCallback} from "react";
-import {useDropzone} from "react-dropzone";
+import { errorNotification, successNotification } from "../../services/notification.js";
+import React, { useEffect, useState } from "react";
 
-const MyTextInput = ({label, ...props}) => {
-    // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-    // which we can spread on <input>. We can use field meta to show an error
-    // message if the field is invalid and it has been touched (i.e. visited)
+const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
     return (
         <Box>
@@ -22,7 +17,7 @@ const MyTextInput = ({label, ...props}) => {
             <Input className="text-input" {...field} {...props} />
             {meta.touched && meta.error ? (
                 <Alert className="error" status={"error"} mt={2}>
-                    <AlertIcon/>
+                    <AlertIcon />
                     {meta.error}
                 </Alert>
             ) : null}
@@ -30,93 +25,79 @@ const MyTextInput = ({label, ...props}) => {
     );
 };
 
-const MyDropzone = ({customerId, fetchCustomers}) => {
-    const onDrop = useCallback(acceptedFiles => {
-        const formData = new FormData();
-        formData.append("file", acceptedFiles[0])
+const AddBid = ({ initialValues, productId }) => {
+    const [bids, setBids] = useState([]);
 
-        uploadCustomerProfilePicture(
-            customerId,
-            formData
-        ).then(() => {
-            successNotification("Success", "Profile picture uploaded")
-            fetchCustomers()
-        }).catch(() => {
-            errorNotification("Error", "Profile picture failed upload")
-        })
-    }, [])
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+    useEffect(() => {
+        fetchBids();
+    }, [productId]);
 
-    return (
-        <Box {...getRootProps()}
-             w={'100%'}
-             textAlign={'center'}
-             border={'dashed'}
-             borderColor={'gray.200'}
-             borderRadius={'3xl'}
-             p={6}
-             rounded={'md'}>
-            <input {...getInputProps()} />
-            {
-                isDragActive ?
-                    <p>Drop the picture here ...</p> :
-                    <p>Drag 'n' drop picture here, or click to select picture</p>
-            }
-        </Box>
-    )
-}
+    const fetchBids = () => {
+        getBids(productId)
+            .then(response => {
+                setBids(response.data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    };
 
-// And now we can use these
-const AddBid = ({fetchCustomers, initialValues, productId}) => {
-   console.log("customerid" + initialValues.sellerId)
     return (
         <>
             <Formik
                 initialValues={{
-                    amount: initialValues.amount,
+                    amount: '',
                     productId: productId,
                     currency: initialValues.currency,
                     userId: initialValues.sellerId
                 }}
                 validationSchema={Yup.object({
                     amount: Yup.number()
-                        .min(initialValues.startingPrice, 'Must be greater than: ' + initialValues.startingPrice)
-                        .required(),
+                        .min(bids.length > 0 ? bids[bids.length - 1].amount + 1 : initialValues.startingPrice, 'Must be greater than the latest bid amount + 1')
+                        .required('Amount is required'),
                 })}
-                onSubmit={(bid, {setSubmitting}) => {
+                onSubmit={(bid, { setSubmitting, resetForm }) => {
                     setSubmitting(true);
-                    console.log(bid);
                     registerBid(bid)
                         .then(res => {
-                            console.log(res);
-                            successNotification(
-                                "You added this bid with success!",
-                            )
-                        }).catch(err => {
-                        errorNotification(
-                            err.code,
-                            err.response.data.message
-                        )
-                    }).finally(() => {
-                        setSubmitting(false);
-                    })
+                            successNotification("You added this bid with success!");
+                            setBids([...bids, res.data]); // Update the bids list
+                            resetForm(); // Reset form fields after successful submission
+                        })
+                        .catch(err => {
+                            errorNotification(err.code, err.response.data.message);
+                        })
+                        .finally(() => {
+                            setSubmitting(false);
+                        });
                 }}
             >
-                {({isValid, isSubmitting, dirty}) => (
+                {({ isValid, isSubmitting, dirty }) => (
                     <Form>
                         <Stack spacing={"24px"}>
                             <MyTextInput
                                 label="Amount"
                                 name="amount"
                                 type="number"
-                                placeholder={initialValues.amount}
+                                placeholder={`Minimum bid amount: ${bids.length > 0 ? bids[bids.length - 1].amount + 1 : initialValues.startingPrice}`}
                             />
-
-                            <Button disabled={!(isValid && dirty) || isSubmitting} type="submit">Submit</Button>
+                            <Button disabled={!(isValid && dirty) || isSubmitting} type="submit">
+                                Submit
+                            </Button>
                         </Stack>
                     </Form>
                 )}
             </Formik>
+            <Text mt={4}><span style={{ fontWeight: 'bold' }}>Number of bids: {bids.length}</span></Text>
+            {bids.length > 0 && bids.map((r, index) => (
+                <Box key={r.id} padding="6" boxShadow="lg" bg="gray.100" mt={4}>
+                    <Text><span style={{ fontWeight: 'bold' }}>Bid number:</span> {bids.length - index}</Text>
+                    <Text><span style={{ fontWeight: 'bold' }}>Date:</span> {new Date(r.dateAndTime).toLocaleString()}</Text>
+                    <Text><span style={{ fontWeight: 'bold' }}>Buyer Name:</span> {r.buyerName}</Text>
+                    <Text><span style={{ fontWeight: 'bold' }}>Amount:</span> {r.amount}</Text>
+                    <Text><span style={{ fontWeight: 'bold' }}>Currency:</span> {r.currency}</Text>
+                </Box>
+            ))}
         </>
     );
 };

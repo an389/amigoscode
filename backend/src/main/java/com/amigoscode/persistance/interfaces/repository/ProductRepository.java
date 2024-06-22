@@ -12,7 +12,7 @@ import java.util.Optional;
 @Transactional
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     Optional<Product> findById(Integer productId);
-    @Query("from Product p where p.name like %:keyword%")
+    @Query("from Product p where lower(p.name) like lower(concat('%', :keyword, '%'))")
     List<Product> findBySearch (@Param("keyword") String keyword);
     @Query("from Product p where p.endDate > local date")
     List<Product> selectAllProducts();

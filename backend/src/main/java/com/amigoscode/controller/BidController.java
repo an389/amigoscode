@@ -27,8 +27,9 @@ public class BidController {
     }
 
     @GetMapping
-    public List<BidDTO> getBids() {
-        return bidService.getAllBids();
+    public List<BidDTO> getBids(@RequestParam(value = "productId", required = false) Long productId) {
+        log.info("getBids {}", productId);
+        return bidService.getBidsByProductId(productId);
     }
 
     @PostMapping

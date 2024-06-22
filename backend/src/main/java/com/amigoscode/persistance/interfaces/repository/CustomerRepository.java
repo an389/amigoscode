@@ -21,5 +21,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Query("UPDATE Customer c SET c.profileImageId = ?1 WHERE c.id = ?2")
     int updateProfileImageId(String profileImageId, Integer customerId);
 
-    @Query("from Customer c where c.name like %:keyword%")
+    @Query("from Customer c where lower(c.name) like lower(concat('%', :keyword, '%'))")
     List<Customer> findBySearch (@Param("keyword") String keyword);}

@@ -135,7 +135,7 @@ public class CustomerService {
 
     public void uploadCustomerProfileImage(Integer customerId,
                                            MultipartFile file) {
-        checkIfCustomerExistsOrThrow(customerId);
+
         String profileImageId = UUID.randomUUID().toString();
         try {
             s3Service.putObject(

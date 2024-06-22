@@ -1,13 +1,9 @@
 package com.amigoscode.persistance;
 
-import ch.qos.logback.classic.Logger;
-import com.amigoscode.model.Bid;
 import com.amigoscode.model.Product;
 import com.amigoscode.persistance.interfaces.ProductDAO;
 import com.amigoscode.persistance.interfaces.repository.ProductRepository;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,9 +25,10 @@ public class ProductJPADataAccessService implements ProductDAO {
     }
 
     @Override
-    public void insertProduct(Product product) {
+    public int insertProduct(Product product) {
         log.info("Save product: " + product.toString());
         productRepository.save(product);
+        return product.getId();
     }
 
     @Override

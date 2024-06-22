@@ -52,10 +52,10 @@ export const getCustomerSearch = async (searchParams) => {
     }
 }
 
-export const getBids = async () => {
+export const getBids = async (productId) => {
     try {
         return await axios.get(
-            API_BASE_URL+`/api/v1/bids`,
+            API_BASE_URL+`/api/v1/bids?productId=${productId}`,
             getAuthConfig()
         )
     } catch (e) {
@@ -89,6 +89,31 @@ export const getProduct = async (id) => {
     try {
         return await axios.get(
             API_BASE_URL+`/api/v1/product/${id}`,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+export const getRating = async (id) => {
+    try {
+        return await axios.get(
+            API_BASE_URL+`/api/v1/rating/${id}`,
+            getAuthConfig()
+        )
+    } catch (e) {
+        throw e;
+    }
+}
+
+
+
+export const registerRating = async (rating) => {
+    try {
+        return await axios.post(
+            API_BASE_URL+`/api/v1/rating`,
+            rating,
             getAuthConfig()
         )
     } catch (e) {
@@ -170,8 +195,26 @@ export const uploadCustomerProfilePicture = async (id, formData) => {
     }
 }
 
+export const uploadProductPicture = async (id, formData) => {
+    try {
+        return axios.post(
+            API_BASE_URL+`/api/v1/product/${id}/image`,
+            formData,
+            {
+                ...getAuthConfig(),
+                'Content-Type' : 'multipart/form-data'
+            }
+        );
+    } catch (e) {
+        throw e;
+    }
+}
+
 export const customerProfilePictureUrl = (id) =>
     API_BASE_URL+`/api/v1/customers/${id}/profile-image`;
+
+export const productPictureUrl = (id) =>
+    API_BASE_URL+`/api/v1/product/${id}/image`;
 
 
 export const registerBid = async (bid) => {
