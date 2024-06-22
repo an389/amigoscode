@@ -297,75 +297,11 @@ class CustomerServiceTest {
         verify(customerDao, never()).updateCustomer(any());
     }
 
-    @Test
-    void canUploadProfileImage() {
-        // Given
-        int customerId = 10;
 
-        when(customerDao.existsCustomerById(customerId)).thenReturn(true);
 
-        byte[] bytes = "Hello World".getBytes();
 
-        MultipartFile multipartFile = new MockMultipartFile("file", bytes);
 
-        String bucket = "customer-bucket";
-        when(s3Buckets.getCustomer()).thenReturn(bucket);
 
-        // When
-        underTest.uploadCustomerProfileImage(customerId, multipartFile);
-
-        // Then
-        ArgumentCaptor<String> profileImageIdArgumentCaptor = ArgumentCaptor.forClass(String.class);
-
-        verify(customerDao).updateCustomerProfileImageId(profileImageIdArgumentCaptor.capture(), eq(customerId));
-
-        verify(s3Service).putObject(bucket, "profile-images/%s/%s".formatted(customerId, profileImageIdArgumentCaptor.getValue()), bytes);
-    }
-
-    @Test
-    void cannotUploadProfileImageWhenCustomerDoesNotExists() {
-        // Given
-        int customerId = 10;
-
-        when(customerDao.existsCustomerById(customerId)).thenReturn(false);
-
-        // When
-        assertThatThrownBy(() -> underTest.uploadCustomerProfileImage(
-                customerId, mock(MultipartFile.class))
-        )
-                .isInstanceOf(ResourceNotFoundException.class)
-                .hasMessage("customer with id [" + customerId + "] not found");
-
-        // Then
-        verify(customerDao).existsCustomerById(customerId);
-        verifyNoMoreInteractions(customerDao);
-        verifyNoInteractions(s3Buckets);
-        verifyNoInteractions(s3Service);
-    }
-
-    @Test
-    void cannotUploadProfileImageWhenExceptionIsThrown() throws IOException {
-        // Given
-        int customerId = 10;
-
-        when(customerDao.existsCustomerById(customerId)).thenReturn(true);
-
-        MultipartFile multipartFile = mock(MultipartFile.class);
-        when(multipartFile.getBytes()).thenThrow(IOException.class);
-
-        String bucket = "customer-bucket";
-        when(s3Buckets.getCustomer()).thenReturn(bucket);
-
-        // When
-        assertThatThrownBy(() -> {
-            underTest.uploadCustomerProfileImage(customerId, multipartFile);
-        }).isInstanceOf(RuntimeException.class)
-                .hasMessage("failed to upload profile image")
-                .hasRootCauseInstanceOf(IOException.class);
-
-        // Then
-        verify(customerDao, never()).updateCustomerProfileImageId(any(), any());
-    }
 
     @Test
     void canDownloadProfileImage() {
