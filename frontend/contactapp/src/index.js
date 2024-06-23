@@ -54,7 +54,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><SearchProductForm/></ProtectedRoute>
     }
 
-//
+
 ])
 console.log('API URL:', process.env.REACT_APP_API_URL);
 ReactDOM
